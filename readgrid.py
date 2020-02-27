@@ -8,42 +8,61 @@ def get_program_parameters():
     description = 'Read an unstructured grid file.'
     epilogue = ''''''
     parser = argparse.ArgumentParser(description=description, epilog=epilogue, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument('filename', help='tetra.vtu.')
+    parser.add_argument('heart_file', help='tetra.vtu.')
+    parser.add_argument('roots_file')
     args = parser.parse_args()
-    return args.filename
+    return args.heart_file, args.roots_file
 
 def main():
     colors = vtk.vtkNamedColors()
-    file_name = get_program_parameters()
+    heart_name, roots_file = get_program_parameters()
 
     # Read the source file.
-    reader = vtk.vtkPolyDataReader()
-    reader.SetFileName(file_name)
-    reader.Update()  # Needed because of GetScalarRange
-    output = reader.GetOutput()
-    scalar_range = output.GetScalarRange()
+    heart_reader = vtk.vtkPolyDataReader()
+    heart_reader.SetFileName(heart_name)
+    heart_reader.Update()  # Needed because of GetScalarRange
+    heart_output = heart_reader.GetOutput()
+    heart_scalar_range = heart_output.GetScalarRange()
+
+    root_reader = vtk.vtkPolyDataReader()
+    root_reader.SetFileName(roots_file)
+    root_reader.Update()
+    root_output = root_reader.GetOutput()
+    root_scalar_range = root_output.GetScalarRange()
 
     # Create the mapper that corresponds the objects of the vtk.vtk file
     # into graphics elements
-    mapper = vtk.vtkDataSetMapper()
-    mapper.SetInputData(output)
-    mapper.SetScalarRange(scalar_range)
-    mapper.ScalarVisibilityOff()
+    heart_mapper = vtk.vtkDataSetMapper()
+    heart_mapper.SetInputData(heart_output)
+    heart_mapper.SetScalarRange(heart_scalar_range)
+    heart_mapper.ScalarVisibilityOff()
 
-    # Create the Actor
+    root_mapper = vtk.vtkDataSetMapper()
+    root_mapper.SetInputData(root_output)
+    root_mapper.SetScalarRange(root_scalar_range)
+    root_mapper.ScalarVisibilityOff()
+
+    # Create the Actors
     actor = vtk.vtkActor()
-    actor.SetMapper(mapper)
+    actor.SetMapper(heart_mapper)
     actor.GetProperty().EdgeVisibilityOn()
-    actor.GetProperty().SetLineWidth(2.0)
+    actor.GetProperty().SetLineWidth(1.0)
+
+    rootactor = vtk.vtkActor()
+    rootactor.SetMapper(root_mapper)
+    rootactor.GetProperty().EdgeVisibilityOn()
+    rootactor.GetProperty().SetLineWidth(3.0)
 
     backface = vtk.vtkProperty()
-    backface.SetColor(colors.GetColor3d("tomato"))
+    backface.SetColor(colors.GetColor3d("black"))
     actor.SetBackfaceProperty(backface)
+    rootactor.SetBackfaceProperty(backface)
 
     # Create the Renderer
     renderer = vtk.vtkRenderer()
+    renderer.AddActor(rootactor)
     renderer.AddActor(actor)
-    renderer.SetBackground(1, 1, 1)  # Set background to white
+    renderer.SetBackground(0, 0, 1)  # Set background to white
     renderer.SetBackground(colors.GetColor3d("Wheat"))
 
     # Create the RendererWindow
