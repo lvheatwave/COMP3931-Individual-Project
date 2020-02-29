@@ -2,22 +2,21 @@
 # -*- coding: utf-8 -*-
 
 import vtk
+import argparse
 
 def get_program_parameters():
-    import argparse
     description = 'Read an unstructured grid file.'
     epilogue = ''''''
     parser = argparse.ArgumentParser(description=description, epilog=epilogue, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('heart_file', help='tetra.vtu.')
-    parser.add_argument('roots_file')
+    parser.add_argument('roots_file', nargs="?")
     args = parser.parse_args()
     return args.heart_file, args.roots_file
 
-def main():
+def render_project(heart_name, roots_file = None):
     colors = vtk.vtkNamedColors()
-    heart_name, roots_file = get_program_parameters()
 
-    # Read the source file.
+    # Read the source files.
     heart_reader = vtk.vtkPolyDataReader()
     heart_reader.SetFileName(heart_name)
     heart_reader.Update()  # Needed because of GetScalarRange
@@ -47,22 +46,22 @@ def main():
     actor.SetMapper(heart_mapper)
     actor.GetProperty().EdgeVisibilityOn()
     actor.GetProperty().SetLineWidth(1.0)
+    actor.GetProperty().SetOpacity(0.5)
 
     rootactor = vtk.vtkActor()
     rootactor.SetMapper(root_mapper)
     rootactor.GetProperty().EdgeVisibilityOn()
-    rootactor.GetProperty().SetLineWidth(3.0)
+    rootactor.GetProperty().SetLineWidth(5.0)
 
     backface = vtk.vtkProperty()
-    backface.SetColor(colors.GetColor3d("black"))
+    backface.SetColor(colors.GetColor3d("pink"))
     actor.SetBackfaceProperty(backface)
-    rootactor.SetBackfaceProperty(backface)
 
     # Create the Renderer
     renderer = vtk.vtkRenderer()
     renderer.AddActor(rootactor)
     renderer.AddActor(actor)
-    renderer.SetBackground(0, 0, 1)  # Set background to white
+    renderer.SetBackground(1, 1, 1)  # Set background to white
     renderer.SetBackground(colors.GetColor3d("Wheat"))
 
     # Create the RendererWindow
@@ -77,4 +76,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    heart_name, roots_file = get_program_parameters()
+    render_project(heart_name, roots_file)

@@ -1,0 +1,4 @@
+GAUSSIAN: <mean> <sigma>
+SHADOW: <numberOfShadows>
+UNIFORM: <lb> <ub>
+SALTPEPPER: <valSalt> <probSalt> <valPepper> <probPepper>
