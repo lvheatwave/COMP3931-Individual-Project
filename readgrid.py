@@ -46,7 +46,7 @@ def render_project(heart_name, roots_file = None):
     actor.SetMapper(heart_mapper)
     actor.GetProperty().EdgeVisibilityOn()
     actor.GetProperty().SetLineWidth(1.0)
-    actor.GetProperty().SetOpacity(0.5)
+    actor.GetProperty().SetOpacity(1)
 
     rootactor = vtk.vtkActor()
     rootactor.SetMapper(root_mapper)

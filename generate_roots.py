@@ -15,9 +15,13 @@ def get_program_parameters():
 def main():
     heart_name = get_program_parameters()
     oxygen_map(heart_name)
+    print("Running VascuSynth")
     os.system("cd vascusynth/vs ; ./VascuSynth paramFiles.txt imageNames.txt 0.08")
+    print("Root data generated")
     gxl_to_vtk("vascusynth/vs/imageTest/tree_structure.xml")
+    print("Root data converted from GXL format to VTK")
     roots_file = "coordinates.vtk"
+    print("Rendering")
     render_project(heart_name, roots_file)
 
 if __name__ == '__main__':
