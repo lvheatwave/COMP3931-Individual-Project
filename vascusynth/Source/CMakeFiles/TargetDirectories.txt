@@ -1,3 +1,0 @@
-/home/raitis/Documents/vascusynth/Source/CMakeFiles/rebuild_cache.dir
-/home/raitis/Documents/vascusynth/Source/CMakeFiles/VascuSynth.dir
-/home/raitis/Documents/vascusynth/Source/CMakeFiles/edit_cache.dir

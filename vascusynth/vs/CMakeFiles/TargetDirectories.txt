@@ -1,3 +1,0 @@
-/home/raitis/Documents/Computer_Science/Year_3/COMP3931-Individual-Project/vascusynth/vs/CMakeFiles/rebuild_cache.dir
-/home/raitis/Documents/Computer_Science/Year_3/COMP3931-Individual-Project/vascusynth/vs/CMakeFiles/VascuSynth.dir
-/home/raitis/Documents/Computer_Science/Year_3/COMP3931-Individual-Project/vascusynth/vs/CMakeFiles/edit_cache.dir

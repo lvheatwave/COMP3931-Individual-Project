@@ -2,11 +2,11 @@ import os, sys, vtk
 from xml.dom import minidom
 from xml.etree import ElementTree as ET
 
-def gxl_to_vtk(file = "tree_structure.xml"):
+def gxl_to_vtk(file, destinationDir):
     gxl = ET.parse(file) # open gxl file
     root = gxl.getroot()
 
-    file = open("coordinates.vtk", "w+") # open the file the points will be written
+    file = open(destinationDir + "/coordinates.vtk", "w+") # open the file the points will be written
 
     file.write("# vtk DataFile Version 3.0\nvtk output\nASCII\nDATASET POLYDATA\n") # Write the format of the vvtk file into the
 

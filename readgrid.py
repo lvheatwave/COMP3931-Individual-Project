@@ -46,7 +46,7 @@ def render_project(heart_name, roots_file = None):
     actor.SetMapper(heart_mapper)
     actor.GetProperty().EdgeVisibilityOn()
     actor.GetProperty().SetLineWidth(1.0)
-    actor.GetProperty().SetOpacity(1)
+    actor.GetProperty().SetOpacity(0.25)
 
     rootactor = vtk.vtkActor()
     rootactor.SetMapper(root_mapper)
@@ -61,7 +61,6 @@ def render_project(heart_name, roots_file = None):
     renderer = vtk.vtkRenderer()
     renderer.AddActor(rootactor)
     renderer.AddActor(actor)
-    renderer.SetBackground(1, 1, 1)  # Set background to white
     renderer.SetBackground(colors.GetColor3d("Wheat"))
 
     # Create the RendererWindow
