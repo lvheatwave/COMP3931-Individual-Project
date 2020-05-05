@@ -1,6 +1,8 @@
-import os, argparse, time
+import os, argparse, time, shutil
 from OxMap_manipulation.HeartOxMap import oxygen_map as oxygen_map
 from gxl_to_vtk.GXLToVTK import gxl_to_vtk as gxl_to_vtk
+from configure import configure as configure
+from copyvs import copyvs as copyvs
 from readgrid import render_project as render_project
 
 def get_program_parameters(): # get the required arguments for the software to start running
@@ -17,24 +19,33 @@ def main():
 
     heart_name = get_program_parameters() # get the arguments
 
-    file_name = heart_name.split('/')[1].split(".")[0] # get and format the name of the file to use to create an apporpriate directory for results
-    if not os.path.exists('results/' + file_name):
-        os.makedirs('results/' + file_name)
-
     oxygen_map(heart_name) # make oxygenation map
 
     with open('VascuSynthLocation.txt', 'r') as location: # get location of VascuSynth
         vascusynthlocation = location.read().splitlines()[0]
 
+    configure(vascusynthlocation) # configures vascusynth
+
+    file_name = heart_name.split('/')[1].split(".")[0] # get and format the name of the file to use to create an apporpriate directory for results
+    if not os.path.exists('results/' + file_name):
+        os.makedirs('results/' + file_name)
+
     print("Running VascuSynth") # run VascuSynth
-    os.system("cd " + vascusynthlocation + " ; ./VascuSynth paramFiles.txt imageNames.txt 0.005")
+    try:
+        os.system("cd " + vascusynthlocation + " ; ./VascuSynth paramFiles.txt imageNames.txt 0.02")
+    except:
+        print("Error: VascuSynth not found.\nAborting")
+        sys.exit(1)
     print("Root data generated")
 
     gxl_to_vtk(str(vascusynthlocation + '/' + file_name + '/tree_structure.xml'), str("results/" + file_name)) # convert gxl coordinate file to a vtk one
     print("Root data converted from GXL format to VTK")
 
     print("%f Seconds since start of generation" % (time.time() - starttime)) # display time it took to generate
-    print("Rendering")
+
+    copyvs(vascusynthlocation, file_name) # copy the images into the same file for easy viewing
+    print("Generation Complete")
+    print("\nRendering")
     render_project(heart_name, "results/" + file_name + "/coordinates.vtk") # displays the generated roots and the heart model as one
 
 if __name__ == '__main__':

@@ -1,8 +1,9 @@
 import os, sys
 
-def oxygen_map(heart_name): # creates an oxygenation map based off of the coordinates in the structure of the heart file
-    with open('VascuSynthLocation.txt') as location: # open location of vascusynth
-        vascusynthLocation = location.read().splitlines()[0] #
+def oxygen_map(heart_name):
+     # creates an oxygenation map based off of the coordinates in the structure of the heart file
+    with open('VascuSynthLocation.txt', 'r') as location: # open location of vascusynth
+        vascusynthLocation = location.read().splitlines()[0]
     try: # create the file
         os.remove(str(vascusynthLocation + "/HeartOx.txt"))
         print("Overwritting HeartOx.txt")
@@ -25,9 +26,9 @@ def oxygen_map(heart_name): # creates an oxygenation map based off of the coordi
     oxline = 0
 
     firstCoordinates = [] # get the first set of coordinates and use the as root node
-    firstCoordinates.append(float(heart[heartline].split()[0]) + 100)
-    firstCoordinates.append(float(heart[heartline].split()[1]) + 100)
-    firstCoordinates.append(float(heart[heartline].split()[2]) + 100)
+    firstCoordinates.append(float(heart[heartline].split()[0]))
+    firstCoordinates.append(float(heart[heartline].split()[1]))
+    firstCoordinates.append(float(heart[heartline].split()[2]))
 
     perfPoint = str("PERF_POINT: " + str(round(firstCoordinates[0], 1)) + " " + str(round(firstCoordinates[1], 1)) + " " + str(round(firstCoordinates[2], 1)) + "\n")
 
@@ -70,18 +71,18 @@ def oxygen_map(heart_name): # creates an oxygenation map based off of the coordi
 
     oxmap.write("200 200 200\n0 0 0 200 200 200\n0\n") # VascuSynth needs to know how big the space is that it will be populating
                                                        # Previous values are overwritten by the next, so therefore we set the
-    volumefactor = 2                                   # oxygenation of the whole space to 0 to not have stray bifurcations that go
+    volumefactor = 1.4                                   # oxygenation of the whole space to 0 to not have stray bifurcations that go
                                                        # outside of the heart
     for i in range(0, len(coordinates)):
         corner1 = []
         corner2 = []
-        corner1.append(coordinates[i][0] - volumefactor + 100) # This section makes a box around every coordinate that we just got
-        corner1.append(coordinates[i][1] - volumefactor + 100) # so that it can basically say that all the areas around the heart
-        corner1.append(coordinates[i][2] - volumefactor + 100) # need to have maximum oxygenation
+        corner1.append(coordinates[i][0] - volumefactor) # This section makes a box around every coordinate that we just got
+        corner1.append(coordinates[i][1] - volumefactor) # so that it can basically say that all the areas around the heart
+        corner1.append(coordinates[i][2] - volumefactor) # need to have maximum oxygenation
 
-        corner2.append(coordinates[i][0] + volumefactor + 100)
-        corner2.append(coordinates[i][1] + volumefactor + 100)
-        corner2.append(coordinates[i][2] + volumefactor + 100)
+        corner2.append(coordinates[i][0] + volumefactor)
+        corner2.append(coordinates[i][1] + volumefactor)
+        corner2.append(coordinates[i][2] + volumefactor)
 
         oxmap.write(str(round(corner1[0], 1)) + " " + str(round(corner1[1], 1)) + " " + str(round(corner1[2], 1)) + " ")
         oxmap.write(str(round(corner2[0], 1)) + " " + str(round(corner2[1], 1)) + " " + str(round(corner2[2], 1)) + "\n")

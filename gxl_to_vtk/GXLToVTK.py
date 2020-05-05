@@ -20,9 +20,9 @@ def gxl_to_vtk(file, destinationDir):
     nodeids = []
     for n in range(0, len(root[0])): # get all the nodes and their coordinates and write them in to the new file
         if root[0][n].tag == "node":
-            x = float(root[0][n][1][0][0].text) - 100
-            y = float(root[0][n][1][0][1].text) - 100
-            z = float(root[0][n][1][0][2].text) - 100
+            x = float(root[0][n][1][0][0].text)
+            y = float(root[0][n][1][0][1].text)
+            z = float(root[0][n][1][0][2].text)
             #print(x - 100, y - 100, z - 100)
             file.write(str(x) + " " + str(y) + " " + str(z) + "\n")
             nodeids.append(str(root[0][n].attrib.get("id")))
