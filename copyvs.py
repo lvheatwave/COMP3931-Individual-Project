@@ -1,6 +1,6 @@
 import os, sys, shutil
 
-def copyvs(vslocation, filename):
+def copyvs(vslocation, filename): # this copies the images and the model into the results directory
     try:
         shutil.rmtree(str('results/' + filename + '/images'))
     except:
