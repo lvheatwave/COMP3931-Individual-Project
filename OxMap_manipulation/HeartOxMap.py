@@ -12,7 +12,7 @@ def oxygen_map(heart_name):
 
     file_name = heart_name.split('/')[1].split(".")[0]
 
-    with open(vascusynthLocation + '/imageNames.txt', "w") as file: # write the file name into this file so when VascuSynth
+    with open('config_files/imageNames.txt', "w") as file: # write the file name into this file so when VascuSynth
         file.writelines(file_name)                                  # generates the data it makes the directory match the name
 
     oxmap = open(str(vascusynthLocation + "/HeartOx.txt"), "w+")

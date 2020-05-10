@@ -46,7 +46,7 @@ def main():
     copyvs(vascusynthlocation, file_name) # copy the images into the same file for easy viewing
     print("Generation Complete")
     print("\nRendering")
-    render_project(heart_name, "results/" + file_name + "/coordinates.vtk") # displays the generated roots and the heart model as one
+    render_project("results/" + file_name + ".vtk", "results/" + file_name + "/coordinates.vtk") # displays the generated roots and the heart model as one
 
 if __name__ == '__main__':
     main()
