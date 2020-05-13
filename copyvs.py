@@ -5,7 +5,7 @@ def copyvs(vslocation, filename): # this copies the images and the model into th
         shutil.rmtree(str('results/' + filename + '/images'))
     except:
         None
-    shutil.copy(str('Heart Models/' + filename + '.vtk'), str('results/' + filename + '.vtk'))
+    shutil.copy(str('Heart Models/' + filename + '.vtk'), str('results/' + filename + '/' + filename + '.vtk'))
     shutil.copytree(str(vslocation + '/' + filename + '/original_image' ) , str('results/' + filename + '/images'))
 
 if __name__ == '__main__':
